@@ -1,0 +1,11 @@
+.footer-wrapper{
+    height: 50px;
+    background-color: rgba(153, 153, 153, 0.651);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-wrapper p{
+    margin-left: 50px;
+}

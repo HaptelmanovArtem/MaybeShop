@@ -1,0 +1,38 @@
+.basket-product-list{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 80%;
+}
+
+
+.article-basket-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.basket-total-info-wrapper{
+    margin-top: 25px;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.basket-count-prod{
+    font-size: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.basket-total-price{
+    font-size: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    font-weight: 700;
+}

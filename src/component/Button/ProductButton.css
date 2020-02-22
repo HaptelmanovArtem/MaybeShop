@@ -1,0 +1,52 @@
+#buy-link{
+    font-size: medium;
+    color: black;
+    border: 1px solid #C2C2C2;
+    background-color: #E1E1E1;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+#buy-link:hover{
+    background-color: rgb(206, 231, 231);
+    border: 1px solid rgb(24, 199, 199);
+}
+
+.basket-plus-minus{
+    border: none;
+    background: none;
+    color:black;
+    font-weight: 600;
+    opacity: .7;
+    border: 1px solid gray;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    padding: 0;
+    margin-right: 5px;
+    transition: all .1s ease;
+}
+
+.basket-plus-minus:hover{
+    cursor: pointer;
+    opacity: 1;
+    background: rgba(128, 128, 128, 0.596);
+    transform: scale(1.2);
+}
+
+#basket-plus{
+    transition: all .1 ease;
+}
+
+#basket-plus:hover{
+    background: rgb(79, 179, 79);
+}
+
+#basket-minus{
+    transition: all .1 ease;
+}
+
+#basket-minus:hover{
+    background: rgb(179, 79, 79);
+}

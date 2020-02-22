@@ -1,0 +1,42 @@
+.buy-product-list{
+    list-style: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.buy-product-list li{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+}
+.article-buy-wrapper{
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+.product-info-wrapper{
+    width: 70%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.product-user-info-wrapper{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.buy-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buy-form input{
+    margin-top: 25px;
+}

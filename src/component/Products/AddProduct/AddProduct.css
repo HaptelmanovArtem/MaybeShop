@@ -1,0 +1,71 @@
+.addproduct-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.addproduct-form select,input{
+    width: 180px;
+}
+.addproduct-form p {
+    margin-top: 25px;
+    width: 180px;
+    padding: 4px;
+}
+
+.select-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.addproduct-input{
+    font-size: 14px;
+    color: black;
+    transition: all .1s ease;
+}
+
+.addproduct-input:hover{
+    background-color: rgba(0, 0, 0, 0.034);
+    cursor: pointer;
+}
+
+.addproduct-input:focus{
+    border-color: chartreuse;
+}
+
+.addproduct-submit{
+    padding: 8px;
+    color: black;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+.addproduct-submit:hover{
+    cursor: pointer;
+}
+
+.addproduct-submit-error{
+    color:rgba(255, 0, 0, 0.562);
+    border: 1px solid red;
+    box-shadow: red 1px 1px 1px;
+
+}
+
+#addproduct-error-text{
+    display: block;
+    color:red;
+    font-size: 12px;
+}
+
+.addproduct-submit-ok{
+    color: rgb(38, 156, 38);    
+}
+
+.isDownloading-img{
+    width: 80px;
+    height: 80px;
+}
