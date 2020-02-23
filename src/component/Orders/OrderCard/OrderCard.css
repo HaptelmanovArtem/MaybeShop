@@ -1,0 +1,81 @@
+.order-card-wrapper{
+    width: 200px;
+    height: 150px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: flex-start;
+    border: 1px solid rgb(177, 176, 176);
+    background-color: rgb(177, 177, 177);
+    overflow: hidden;
+    opacity: .7;
+    transition: all .1s ease;
+    margin: 15px 5px 5px 5px;
+    padding: 5px 15px 5px 15px;
+}
+
+.order-card-done{
+    background-color: rgb(116, 180, 116);
+}
+
+.order-card-not-done{
+    background-color: rgb(189, 118, 118);
+}
+
+.order-card-wrapper:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.order-card-total-price span{
+    font-weight: 700;
+}
+
+.order-card-count span{
+    font-weight: 700;
+}
+
+.order-card-user-info-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.order-card-button-wrapper{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.order-card-button-edit-status, .order-card-button-delete{
+    border: none;
+    background: rgba(128, 128, 128, 0.13);
+    height: 32px;
+    width: 32px;
+    transition: all .1s ease;
+    opacity: .7;
+}
+
+.order-card-button-edit-status:hover{
+    cursor: pointer;
+    background: rgba(128, 128, 128, 0.438);
+    opacity: 1;
+}
+
+.order-card-button-delete:hover{
+    cursor: pointer;
+    background: rgba(206, 76, 76, 0.438);
+    color: rgb(201, 30, 30);
+    opacity: 1;
+}
+
+.modal {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

@@ -53,5 +53,37 @@
     font-weight: 400;
 }
 .button-wrapper{
+    width: 70%;
     display: flex;
+    justify-content: space-around;
+}
+
+.product-card-button-auth{
+    color: rgba(0, 0, 0, 0.5);
+    background-color: #E1E1E1;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: .7;
+    transition: all .4s ease;
+}
+
+.product-card-edit-button:hover{
+    color: black;
+    opacity: 1;
+}
+
+.product-card-delete-button{
+    border: none;
+    width: 32px;
+    height: 32px;
+}
+
+.product-card-delete-button:hover{
+    color: rgb(160, 20, 20);
+    opacity: 1;
+    cursor: pointer;
 }

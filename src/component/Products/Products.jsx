@@ -8,6 +8,10 @@ import ProductCard from './ProductCard/ProductCard.jsx';
 
 
 class ProductApi extends React.Component{
+    constructor(props){
+        super(props);
+        this.HandleDeleteClick = this.HandleDeleteClick.bind(this);
+    }
     componentDidMount(){
         this.props.SetProductIsDownloading();
         Axios.get(`https://localhost:44328/api/phone`)
@@ -22,6 +26,36 @@ class ProductApi extends React.Component{
             this.props.SetProductIsDownloading();
         });
     }
+    async HandleDeleteClick(id){
+        await Axios.delete(`https://localhost:44328/api/phone/${id}`,{
+            headers: {
+                ContentType: 'application/json',
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        })
+        .then(async Response=>{
+            if(Response.status === 200){
+                this.props.SetProductIsDownloading();
+                Axios.get(`https://localhost:44328/api/phone`)
+                .then(async Response => {
+                    if(Response.status === 200)
+                        await this.props.SetProductAC(Response.data);
+                    else await this.props.SetErrorAC(Response.statusText);
+                    this.props.SetProductIsDownloading();
+                })
+                .catch(error => {
+                    this.props.SetErrorAC(error.message);
+                    this.props.SetProductIsDownloading();
+                });
+            }
+            else{
+                await this.props.SetErrorAC(Response.statusText);
+            }
+        })
+        .catch(async error=>{
+            await this.props.SetErrorAC(error.message);
+        });
+    }
     render(){
         return(
             <main className="main-wrapper">
@@ -34,7 +68,12 @@ class ProductApi extends React.Component{
                             this.props.prodcuts.length > 0 &&
                                 this.props.prodcuts.map(item=>{
                                     return <li key = {item.id}>
-                                        <ProductCard id = {item.id} img = {item.photoId} price={item.price} name = {item.name}/>
+                                        <ProductCard id = {item.id} 
+                                        img = {item.photoId} 
+                                        price={item.price} 
+                                        name = {item.name} 
+                                        HandleDeleteClick = {this.HandleDeleteClick}
+                                        />
                                     </li>
                                 })
                             }

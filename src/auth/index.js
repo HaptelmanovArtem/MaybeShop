@@ -1,6 +1,7 @@
 import React from 'react';
 import auth0 from 'auth0-js';
 import {withRouter} from 'react-router-dom';
+
 const jwt_decode = require('jwt-decode'); 
 
 const {Provider, Consumer: AuthConsumer} = React.createContext({
@@ -34,7 +35,7 @@ class AuthProvider extends React.Component{
         this.setState({isAuthorized:false, user:{}}, ()=>this.props.history.push("/"));
     }
 
-    handleAuthentication = () =>{
+    handleAuthentication = (path) =>{
         this.auth0.parseHash((err, authResult)=>{
             if(authResult && authResult.accessToken){
                 localStorage.setItem("token",authResult.accessToken);
@@ -46,8 +47,7 @@ class AuthProvider extends React.Component{
                     const uInfo = JSON.parse(localStorage.getItem("profile"));    
                     const decodedToken = jwt_decode(authResult.accessToken);
                     this.setState({isAuthorized: true,error: "", user: {...uInfo, roles: decodedToken["https://phone.com/roles"]}},
-                        ()=>this.props.history.push("/profile"));            
-                    console.log(this.state);
+                        ()=>this.props.history.push('/profile'));
                 });
             }
             else if(err){

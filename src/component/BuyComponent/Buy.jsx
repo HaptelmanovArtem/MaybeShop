@@ -7,7 +7,8 @@ import { Redirect } from 'react-router-dom';
 import {DleateFromBasket} from '../../supportFunc/removeFromBasket.js';
 import {WithAuth} from '../../auth/index';
 import {RemoveFromBasket,AddProductToBasket} from "../../reducer/BasketReducer.js";
-import {SetChangedUserInfoFieldAC, SetIsEditAC} from '../../reducer/BuyReducer.js';
+import {SetChangedUserInfoFieldAC, SetIsEditAC,SetStatusResultOrderAC} from '../../reducer/BuyReducer.js';
+import Axios from 'axios';
 
 class BuyAPI extends React.Component{
     constructor(props){
@@ -15,6 +16,7 @@ class BuyAPI extends React.Component{
         this.HandleDeleteFromBasket = this.HandleDeleteFromBasket.bind(this);
         this.HandleIsEdit = this.HandleIsEdit.bind(this);
         this.HandleChangeField = this.HandleChangeField.bind(this);
+        this.HandleSubmitOrder = this.HandleSubmitOrder.bind(this);
     }
     async HandleDeleteFromBasket(id){
         const prod = DleateFromBasket(this.props.products,id);
@@ -34,7 +36,63 @@ class BuyAPI extends React.Component{
         event.preventDefault();
         this.props.SetChangedUserInfoFieldAC(event.target.name, event.target.value);
     }
+    HandleSubmitOrder(event){
+        event.preventDefault();
+        let UserInfo;
+        if(this.props.isEdit){
+            UserInfo = {
+                email: this.props.eUser.email, 
+                family_name: this.props.eUser.family_name,
+                given_name: this.props.eUser.given_name,
+                address:this.props.eUser.address,
+                Phone_number: "+380"
+        }
+        } else{
+            UserInfo = {
+                email: this.props.user.email,
+                family_name: this.props.user.family_name,
+                given_name: this.props.user.given_name,
+                address: "Address",
+                Phone_number: "+380"
+            }
+        }
+        const prodId = this.props.products.map(item=>{ return {prodId: item.id}});        
+        const newOrder = {
+            UserId: this.props.user.sub,
+            prodId: prodId,
+            Description: UserInfo.address,
+            TotalPrice: this.props.totalPrice,
+            Family_name: UserInfo.family_name,
+            Given_name: UserInfo.given_name,
+            Phone_number: UserInfo.Phone_number,
+            Email_address: UserInfo.email,
+            isDone: false
+        }
+        console.log(newOrder);
+
+        Axios.post("https://localhost:44328/api/order",
+        newOrder,{
+            headers:{
+                ContentType: 'application/json',
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        })
+        .then(Response=>{
+            if(Response.status === 200){
+                this.props.SetStatusResultOrderAC(Response.status);
+                this.props.RemoveFromBasket([],0);
+            }
+        })
+        .catch(e=>{
+            console.log(e.message);
+        });
+    }
     render(){
+        if(this.props.status === 200){
+            this.props.SetStatusResultOrderAC(0);
+            return <Redirect to="/" />
+        }
+            
         return(
             <main className="main-wrapper">
                 <article className="article-buy-wrapper">
@@ -70,7 +128,7 @@ class BuyAPI extends React.Component{
                             }
                             </button>
                         }
-                        <form className="buy-form">
+                        <form className="buy-form" onSubmit = {this.HandleSubmitOrder}>
                             <input type="text" 
                                 name="family_name"
                                 value={
@@ -123,11 +181,13 @@ class BuyAPI extends React.Component{
 
 const mapStateToProps = (state) => ({
     products: state.BasketReducer.products,
+    totalPrice: state.BasketReducer.totalPrice,
     eUser: state.BuyReducer.user,
-    isEdit: state.BuyReducer.isEdit
+    isEdit: state.BuyReducer.isEdit,
+    status: state.BuyReducer.status
 });
 
-const Buy = connect(mapStateToProps,{RemoveFromBasket,AddProductToBasket, SetIsEditAC,SetChangedUserInfoFieldAC})(BuyAPI);
+const Buy = connect(mapStateToProps,{RemoveFromBasket,AddProductToBasket, SetIsEditAC,SetChangedUserInfoFieldAC, SetStatusResultOrderAC})(BuyAPI);
 
 export default WithAuth(({isAuthorized, authorize, error,user})=>{
     return <Buy user={user} isAuthorized={isAuthorized} authorize={authorize}/>;

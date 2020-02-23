@@ -23,9 +23,9 @@ class ProductButtonApi extends React.Component {
             await this.props.RemoveFromBasket(prod,tPrice);
         }  
     }
-    async HandleAddToBasket(){
+    HandleAddToBasket(){
         const {id,img,name,price} = this.props;
-        await this.props.AddProductToBasket({id,img,name,price});
+        this.props.AddProductToBasket({id,img,name,price});
     }
     render(){
         return(

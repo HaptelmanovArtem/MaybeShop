@@ -6,6 +6,7 @@ import CatalogReducer from './CatalogReducer.js';
 import BasketReducer from './BasketReducer.js';
 import UserReducer from './UserReducer.js';
 import BuyReducer from './BuyReducer.js';
+import OrderReducer from './OrderReducer.js';
 
 export default combineReducers({
     ProductReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     CatalogReducer,
     BasketReducer,
     UserReducer,
-    BuyReducer
+    BuyReducer,
+    OrderReducer
 });

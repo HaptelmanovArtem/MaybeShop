@@ -5,7 +5,8 @@ const initialState = {
         email: "",
         address: ""        
     },
-    isEdit: false
+    isEdit: false,
+    status: 0
 }
 
 const BuyReducer = (state = initialState, action) => {
@@ -23,6 +24,11 @@ const BuyReducer = (state = initialState, action) => {
                 ...state,
                 isEdit: !state.isEdit
             }
+        case "SET_STATUS_ORDER":
+            return{
+                ...state,
+                status: action.payload
+            }
         default:
             return state;
     }
@@ -36,6 +42,11 @@ export const SetChangedUserInfoFieldAC = (field, text) => ({
     type: "ON_CHANGE_USER_INFO",
     field,
     payload: text
+});
+
+export const SetStatusResultOrderAC = status => ({
+    type: "SET_STATUS_ORDER",
+    payload: status
 });
 
 export default BuyReducer;

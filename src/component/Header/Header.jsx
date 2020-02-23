@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {WithAuth} from '../../auth/index.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons'
+import { faShoppingBasket, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 
 import isAdmin from '../../auth/isAdmin.js';
 import './Header.css';
@@ -51,6 +51,11 @@ class HeaderApi extends React.Component {
                                 <FontAwesomeIcon icon={faShoppingBasket}/> 
                                 <span className="span-text">&nbsp;{this.props.count}</span>
                             </Link>
+                            {this.props.isAuthorized &&
+                            <Link to="/orders" className="fa-shopping-cart-link">
+                                <FontAwesomeIcon icon={faShoppingCart}/>
+                            </Link>
+                            }
                         </div>
                     </div>
                 </header>

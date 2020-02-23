@@ -1,0 +1,8 @@
+.orders-list{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+}
