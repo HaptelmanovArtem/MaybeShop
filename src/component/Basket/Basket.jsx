@@ -6,6 +6,8 @@ import {DleateFromBasket} from '../../supportFunc/removeFromBasket.js';
 import {RemoveFromBasket,AddProductToBasket} from "../../reducer/BasketReducer.js";
 import './Basket.css';
 import BasketProductCard from './BasketProductCard/BasketProductCard';
+import Button from '../MyButton/Button.jsx';
+import { Link } from 'react-router-dom';
 
 class Basket extends React.Component{
     constructor(props){
@@ -49,6 +51,9 @@ class Basket extends React.Component{
                                 <span className="basket-total-price">
                                     Total price: {this.props.totalPrice}
                                 </span>
+                                <Link to="/buyproduct">
+                                <Button value={"Buy"}/>
+                                </Link>
                             </div>
                         </>
                         :<h3>Basket is empty(</h3>

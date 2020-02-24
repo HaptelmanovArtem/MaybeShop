@@ -1,41 +1,43 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Axios from 'axios';
 import {WithAuth} from '../../auth/index';
 import {SetOrdersAC,SetIsDownloadOrderAC} from '../../reducer/OrderReducer.js';
 
 import "./Orders.css";
 import OrderCard from './OrderCard/OrderCard';
 import isAdmin from '../../auth/isAdmin';
+import { getAllOrders, getAllOrdersByUserId } from '../../API/orderAPI';
 
 class Orders extends React.Component{
     componentDidMount(){
         if(this.props.isAuthorized && isAdmin(this.props.user.roles)){
             this.props.SetIsDownloadOrderAC();
-            Axios.get(`https://localhost:44328/api/order`,{
-                headers:{
-                    ContentType: "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
+            getAllOrders()
+            .then(Response=>{
+                if(Response.status === 200){
+                    this.props.SetOrdersAC(Response.data);
+                    this.props.SetIsDownloadOrderAC();
+                }
+                else{
+                    console.log(Response);
+                    this.props.SetIsDownloadOrderAC();
                 }
             })
+            .catch(error=>{
+                console.log(error);
+                this.props.SetIsDownloadOrderAC();
+            })
+        }
+        else{
+            this.props.SetIsDownloadOrderAC();
+            getAllOrdersByUserId(this.props.user.sub)
             .then(async Response=>{
                 if(Response.status === 200){
                     await this.props.SetOrdersAC(Response.data);
                     this.props.SetIsDownloadOrderAC();
                 }
-            })
-        }
-        else{
-            this.props.SetIsDownloadOrderAC();
-            Axios.get(`https://localhost:44328/api/order/getmyorders/${this.props.user.sub}`,{
-                headers:{
-                    ContentType: "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            })
-            .then(async Response=>{
-                if(Response.status === 200){
-                    await this.props.SetOrdersAC(Response.data);
+                else{
+                    console.log(Response);
                     this.props.SetIsDownloadOrderAC();
                 }
             })
@@ -54,15 +56,18 @@ class Orders extends React.Component{
                                     this.props.orders.map((item)=>{
                                     return <li key={item.id}>
                                             <OrderCard id={item.id} 
+                                                userId = {item.userId}
+                                                description = {item.description}
                                                 count={item.prodId.length} 
                                                 totalPrice = {item.totalPrice} 
                                                 isAuthorized={this.props.isAuthorized}
                                                 userRole = {this.props.user.roles}
-                                                family_name = {this.props.user.family_name}
-                                                given_name = {this.props.user.given_name}
-                                                email = {this.props.user.email}
+                                                family_name = {item.family_name}
+                                                given_name = {item.given_name}
+                                                email = {item.email_address}
                                                 isDone = {item.isDone}
                                                 SetOrdersAC = {this.props.SetOrdersAC}
+                                                phone_number = {item.phone_number}
                                                 />
                                         </li>
                                     })

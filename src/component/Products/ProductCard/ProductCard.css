@@ -1,9 +1,9 @@
 .product-card-wrapper{
-    width: 350px;
-    height: 400px;
+    width: 250px;
+    height: 300px;
     border: 1px solid rgba(0, 0, 0, 0.548);
     overflow: hidden;
-    margin-top: 25px;
+    margin: 25px 25px 0 0;
     background-color: hsl(0, 12%, 93%);
     transition: .1s all ease;
     padding: 4px;

@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
 import './AddProduct.css';
@@ -8,6 +7,9 @@ import {ChangeFieldAC,AddErrorAC, SetStatusAC, SetIsDownloadingAC} from '../../.
 import {SetCatalogAC} from '../../../reducer/CatalogReducer.js';
 import {SetMakerAC} from '../../../reducer/MakerReducer.js';
 import Select from './Select/Select.jsx';
+import { addNewProduct } from '../../../API/productAPI';
+import { getAllCatalogs } from '../../../API/catalogAPI';
+import { getAllMakers } from '../../../API/makerAPI';
 
 
 class AddProductApi extends React.Component{
@@ -20,12 +22,12 @@ class AddProductApi extends React.Component{
     }
     file;
     componentDidMount(){
-        Axios.get("https://localhost:44328/api/makerphone")
+        getAllMakers()
         .then(Response=>{
             this.props.SetMakerAC(Response.data);
         })
         .catch(err=>console.warn(err.message));
-        Axios.get("https://localhost:44328/api/catalog")
+        getAllCatalogs()
         .then(Response=>{
             this.props.SetCatalogAC(Response.data);
         })
@@ -39,13 +41,7 @@ class AddProductApi extends React.Component{
             CatalogId: +this.props.CatalogId,
             MakerId: +this.props.MakerId
         };
-        Axios.post("https://localhost:44328/api/phone",  // add promise
-        newPhone, {
-            headers: {
-                ContentType: 'application/json',
-                Authorization: "Bearer " + localStorage.getItem("token")
-            }
-        })
+        addNewProduct(newPhone)
         .then(Response=>{
             if(Response.status === 200)
                 this.props.SetStatusAC();

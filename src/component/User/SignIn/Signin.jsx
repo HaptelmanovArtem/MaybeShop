@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../MyButton/Button.jsx';
 
 import './Signin.css';
 import { WithAuth } from '../../../auth';
@@ -9,7 +10,7 @@ class SigninApi extends React.Component{
        return <main className = "main-wrapper">
             <section className = "login-section">
                 <div className="login-box">
-                    <button className ="login-button" onClick={this.props.auth}>Log in</button>
+                    <Button className ="" onClick={this.props.auth} value={"Log in"}/>
                 </div>
             </section>
        </main> 

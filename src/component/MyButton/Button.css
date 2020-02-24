@@ -1,0 +1,19 @@
+.button-{
+    width: 90px;
+    height: 40px;
+    background-color: #1771F1;
+    border: 1px solid rgb(12, 55, 114);
+    box-shadow: 0 0 10px rgba(23, 114, 241, 0.411);
+    font-weight: 600;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 0;
+    opacity: .9;
+    cursor: pointer;
+    transition: all .1s ease;
+}
+
+.button-:hover{
+    font-weight: 500;
+    opacity: 1;
+    box-shadow: 0 0 10px rgb(23, 114, 241);
+}

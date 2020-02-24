@@ -1,38 +1,33 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../Modal/Modal';
 
 import "./OrderCard.css";
-import Axios from 'axios';
+import { getAllOrders, deleteOrderById, changeInfoInOrderById } from '../../../API/orderAPI';
 
 class OrderCard extends React.Component{
     constructor(props){
         super(props);
-        this.state = {isOpen:false, isAccess: false};
+        this.state = {isOpen:false, isOpenDone: false, isAccess: false, isDone: false};
         this.HandleModalSubmit = this.HandleModalSubmit.bind(this);
         this.HandleModalOpen = this.HandleModalOpen.bind(this);
         this.HandleModalCancel = this.HandleModalCancel.bind(this);
+        this.HandleModalEditStatus = this.HandleModalEditStatus.bind(this);
+        this.HandleModalEditOpen = this.HandleModalEditOpen.bind(this);
     }
     HandleModalOpen(){
         this.setState({isOpen: true});
     }
+    HandleModalEditOpen(){
+        this.setState({isOpenDone:true})
+    }
     HandleModalSubmit(){
         this.setState({isOpen: false, isAccess: true});
-        Axios.delete(`https://localhost:44328/api/order/${this.props.id}`,{
-            headers:{
-                ContentType: "application/json",
-                Authorization: "Bearer " + localStorage.getItem("token")
-            }
-        })
+        deleteOrderById(this.props.id)
         .then(Response=>{
             if(Response.status === 200){
-                Axios.get(`https://localhost:44328/api/order`,{
-                    headers:{
-                        ContentType: "application/json",
-                        Authorization: "Bearer " + localStorage.getItem("token")
-                    }
-                })
+                getAllOrders()
                 .then(async Response=>{
                     if(Response.status === 200){
                         await this.props.SetOrdersAC(Response.data);
@@ -44,8 +39,38 @@ class OrderCard extends React.Component{
             console.log(error);
         });
     }
+    async HandleModalEditStatus(){
+        this.setState({isOpenDone: false, isDone:true}, () => {    
+                const changedOrder ={
+                    id: this.props.id,
+                    userId: this.props.userId,
+                    prodId: [],
+                    description: this.props.description,
+                    totalPrice: this.props.totalPrice,
+                    family_name: this.props.family_name,
+                    given_name: this.props.given_name,
+                    phone_number: this.props.phone_number,
+                    email_address: this.props.email,
+                    isDone: true
+                };
+                changeInfoInOrderById(this.props.id,changedOrder)
+                    .then(Response => {
+                        if(Response.status === 200){
+                            getAllOrders()
+                            .then(async Response=>{
+                                if(Response.status === 200){
+                                    await this.props.SetOrdersAC(Response.data);
+                                }
+                            })
+                        }
+                    })
+                    .catch(error=>{
+                        console.log(error);
+                });
+        });
+    }
     HandleModalCancel(){
-        this.setState({isOpen: false, isAccess: false});
+        this.setState({isOpen: false, isAccess: false, isOpenDone: false, isDone: false});
     }
 
     render(){
@@ -71,14 +96,20 @@ class OrderCard extends React.Component{
                         </div>    
                         <div className="order-card-button-wrapper">
                             <button className="order-card-button-edit-status">
-                                <FontAwesomeIcon icon={faEdit}/>
+                                <FontAwesomeIcon icon={faCheckCircle} onClick={this.HandleModalEditOpen}/>
+                                <Modal isOpen={this.state.isOpenDone} 
+                                    onSubmit={this.HandleModalEditStatus} 
+                                    title="Confirm ur actions!"
+                                    children={<h3>Have u completed this order?</h3>}
+                                    onCancel={this.HandleModalCancel}
+                                    />
                             </button>
                             <button className="order-card-button-delete">
                                 <FontAwesomeIcon icon={faTrash} onClick={this.HandleModalOpen}/>
                                 <Modal isOpen={this.state.isOpen} 
                                     onSubmit={this.HandleModalSubmit} 
                                     title="Confirm ur actions!"
-                                    children={<h3>Do u really want delete this order?</h3>}
+                                    children={<h3>Are u shure?</h3>}
                                     onCancel={this.HandleModalCancel}
                                     />
                             </button>

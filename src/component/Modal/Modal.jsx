@@ -4,6 +4,7 @@ import PropsType from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import './Modal.css';
+import Button from '../MyButton/Button.jsx';
 
 const Modal = ({title, isOpen, onSubmit, onCancel, children} ) => {
     return(
@@ -22,8 +23,8 @@ const Modal = ({title, isOpen, onSubmit, onCancel, children} ) => {
                                 {children}
                             </div>
                             <div className="modalFooter">
-                                <button onClick={onCancel}>Cancle</button>
-                                <button onClick={onSubmit}>Submit</button>
+                                <Button onClick={onCancel} value="Cancle"/>
+                                <Button onClick={onSubmit} value="Submit"/>
                             </div>     
                         </div> 
                     </div>

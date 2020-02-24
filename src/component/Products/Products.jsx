@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Axios from 'axios';
+
+import {getAllProducts, deleteProductById} from '../../API/productAPI';
 
 import "./Products.css";
 import {SetProductAC, SetErrorAC, SetProductIsDownloading} from '../../reducer/ProductReducer.js';
@@ -14,7 +15,7 @@ class ProductApi extends React.Component{
     }
     componentDidMount(){
         this.props.SetProductIsDownloading();
-        Axios.get(`https://localhost:44328/api/phone`)
+        getAllProducts()
         .then(async Response => {
             if(Response.status === 200)
                 await this.props.SetProductAC(Response.data);
@@ -27,16 +28,11 @@ class ProductApi extends React.Component{
         });
     }
     async HandleDeleteClick(id){
-        await Axios.delete(`https://localhost:44328/api/phone/${id}`,{
-            headers: {
-                ContentType: 'application/json',
-                Authorization: "Bearer " + localStorage.getItem("token")
-            }
-        })
+        await deleteProductById(id)
         .then(async Response=>{
             if(Response.status === 200){
                 this.props.SetProductIsDownloading();
-                Axios.get(`https://localhost:44328/api/phone`)
+                getAllProducts()
                 .then(async Response => {
                     if(Response.status === 200)
                         await this.props.SetProductAC(Response.data);

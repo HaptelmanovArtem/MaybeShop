@@ -3,8 +3,8 @@ import React from 'react';
 import "../../Products/Products.css";
 import {connect} from 'react-redux';
 import {SetProductAC} from '../../../reducer/ProductReducer.js';
-import Axios from 'axios';
 import ProductCard from '../../Products/ProductCard/ProductCard.jsx';
+import { getProductByCatalogId } from '../../../API/productAPI';
 
 class CatalogProductsAPI extends React.Component{
     constructor(props){
@@ -12,7 +12,7 @@ class CatalogProductsAPI extends React.Component{
         this.id = this.props.match.params.id;
     }
     componentDidMount(){
-        Axios.get(`https://localhost:44328/api/phone/bycatalog/${this.id}`)
+        getProductByCatalogId(this.id)
         .then(async Response=>{
             await this.props.SetProductAC(Response.data);
         })

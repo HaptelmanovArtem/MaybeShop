@@ -1,16 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Axios from 'axios';
 
 import './Catalog.css';
 import {SetErrorAC, SetCatalogAC,SetIsDownloadingAC} from '../../reducer/CatalogReducer.js';
 import CatalogCard from './CatalogCard/CatalogCard.jsx';
+import { getAllCatalogs } from '../../API/catalogAPI';
 
 class CatalogAPI extends React.Component{
     
     componentDidMount(){
         this.props.SetIsDownloadingAC();
-        Axios.get("https://localhost:44328/api/catalog")
+        getAllCatalogs()
         .then(async Response=>{
             if(Response.status === 200)
                 await this.props.SetCatalogAC(Response.data);
